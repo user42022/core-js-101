@@ -440,8 +440,17 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const m = m2[0].length;
+  const n = m1.length;
+  // eslint-disable-next-line no-unused-vars
+  const a = (new Array(n)).fill(0).map((_) => []);
+  for (let i = 0; i < n; i += 1) {
+    for (let j = 0; j < m; j += 1) {
+      a[i][j] = m2.map((e, idx) => e[j] * m1[i][idx]).reduce((x, y) => x + y);
+    }
+  }
+  return a;
 }
 
 
@@ -475,8 +484,29 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(positionINIT) {
+  const position = [[], [], []];
+  for (let i = 0; i < 3; i += 1) {
+    for (let j = 0; j < 3; j += 1) {
+      position[i][j] = positionINIT[i] instanceof Array ? positionINIT[i][j] : undefined;
+    }
+  }
+  const horizontalWin = position.filter((e) => e.every((el) => el === 'X') || e.every((el) => el === '0'));
+  if (horizontalWin.length) {
+    return horizontalWin.flat()[0];
+  }
+  const verticalWin = position[0]
+    .filter((el, idx) => (el === position[1][idx]) && (el === position[2][idx]));
+  if (verticalWin.length) {
+    return verticalWin[0];
+  }
+  if (position[0][0] === position[1][1] && position[0][0] === position[2][2]) {
+    return position[0][0];
+  }
+  if (position[0][2] === position[1][1] && position[0][2] === position[2][0]) {
+    return position[0][2];
+  }
+  return undefined;
 }
 
 
